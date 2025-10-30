@@ -1,0 +1,857 @@
+.app-container {
+  font-family: "Poppins", sans-serif;
+  padding: 20px;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: rgb(143, 165, 165);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ✅ Main layout: side by side with equal height */
+.main-content {
+  display: flex;
+  gap: 25px;
+  flex: 1;
+  min-height: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ✅ Left Panel (JSON input) */
+.left-panel {
+  flex: 0.45;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ✅ Right Panel (Tree visualizer) */
+.right-panel {
+  flex: 0.55;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+}
+
+/* ✅ JSON input box */
+.json-input-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.json-textarea {
+  width: 100%;
+  flex: 1;
+  min-height: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: none;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  background-color: #fdfdfd;
+  box-sizing: border-box;
+}
+
+/* ✅ Button group for Generate and Clear buttons */
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.button-group .generate-btn,
+.button-group .clear-btn {
+  flex: 1;
+  margin-top: 0;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.generate-btn {
+  background-color: #0da858;
+  color: white;
+}
+
+.generate-btn:hover {
+  background-color: #209446;
+  transform: translateY(-1px);
+}
+
+.clear-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.clear-btn:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.helper-text {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #555;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.error-text {
+  color: #dc2626;
+  margin-top: 6px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* ✅ Tree Visualizer Container */
+.tree-visualizer-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.search-bar-container {
+  text-align: center;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.search-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar input {
+  width: 280px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.search-bar button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #0f67e3;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.search-bar button:hover {
+  background-color: #0f67e3;
+  transform: translateY(-1px);
+}
+
+/* ✅ Tree container - FIXED HEIGHT */
+.tree-container {
+  flex: 1;
+  min-height: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #fafafa;
+  position: relative;
+  overflow: hidden;
+}
+
+/* React Flow wrapper fixes */
+.react-flow-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* ✅ MiniMap custom styling */
+.react-flow__minimap {
+  width: 120px !important;
+  height: 80px !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(0, 0, 0, 0.1) !important;
+}
+
+.react-flow__minimap-node {
+  stroke: none !important;
+  stroke-width: 1px !important;
+}
+
+/* ✅ Download button panel */
+.download-panel {
+  top: 10px !important;
+  right: 50px !important;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
+}
+
+.download-btn:hover:not(:disabled) {
+  background: #10b981;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(139, 92, 246, 0.4);
+}
+
+.download-btn:disabled {
+  background: #10b981;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.download-btn svg {
+  flex-shrink: 0;
+}
+
+/* ✅ Search message panel - positioned on left side */
+.search-message-panel {
+  top: 10px !important;
+  left: 10px !important;
+  margin: 0 !important;
+}
+
+.search-message {
+  background: rgba(255, 255, 255, 0.98);
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+  text-align: left;
+  max-width: 400px;
+  word-wrap: break-word;
+  line-height: 1.4;
+  border-left: 4px solid #28a745;
+}
+
+.search-message:contains("❌") {
+  border-left-color: #dc2626;
+}
+
+.search-message:contains("⚠️") {
+  border-left-color: #f59e0b;
+}
+
+.search-message:contains("⏳") {
+  border-left-color: #8b5cf6;
+}
+
+/* ✅ Enhanced placeholder styling */
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+}
+
+.placeholder p {
+  margin: 5px 0;
+}
+
+.placeholder p:first-child {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+.placeholder p:last-child {
+  font-size: 14px;
+  color: #888;
+}
+
+/* ✅ Node Tooltip */
+.node-tooltip {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: monospace;
+  white-space: pre-line;
+  z-index: 1000;
+  pointer-events: none;
+  border: 1px solid #334155;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+  line-height: 1.4;
+}
+
+/* ✅ Better node text visibility */
+.react-flow__node {
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Make buttons even more compact on smaller screens */
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .left-panel,
+  .right-panel {
+    flex: none;
+    height: 400px;
+  }
+  
+  .tree-container {
+    height: 300px;
+  }
+  
+  .app-container {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .button-group .generate-btn,
+  .button-group .clear-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+
+  .search-bar button {
+    width: 100%;
+  }
+
+  /* Smaller MiniMap on mobile */
+  .react-flow__minimap {
+    width: 80px !important;
+    height: 60px !important;
+  }
+
+  /* Smaller search message on mobile */
+  .search-message {
+    font-size: 13px;
+    padding: 8px 12px;
+    max-width: 300px;
+  }
+
+  /* Adjust download button position on mobile */
+  .download-panel {
+    right: 10px !important;
+    top: 50px !important;
+  }
+
+  .download-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+/* ✅ Dark mode support for future use */
+@media (prefers-color-scheme: dark) {
+  .app-container {
+    background-color: #1a1a1a;
+    color: #fff;
+  }
+
+  .left-panel,
+  .right-panel {
+    background: #2d2d2d;
+    color: #fff;
+  }
+
+  .json-textarea {
+    background-color: #1e1e1e;
+    color: #fff;
+    border-color: #555;
+  }
+
+  .tree-container {
+    background-color: #1e1e1e;
+    border-color: #555;
+  }
+
+  .search-bar input {
+    background-color: #2d2d2d;
+    color: #fff;
+    border-color: #555;
+  }
+
+  .search-message {
+    background: rgba(45, 45, 45, 0.98);
+    color: #fff;
+    border-color: #555;
+    border-left-color: #28a745;
+  }
+
+  .download-btn {
+    background: #7c3aed;
+  }
+
+  .download-btn:hover:not(:disabled) {
+    background: #6d28d9;
+  }
+
+  .react-flow__minimap {
+    background-color: #2d2d2d !important;
+    border-color: #555 !important;
+  }
+}
+
+/* CSS Variables for Light Theme (default) */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --primary-color: #232528;
+  --secondary-color: #6c757d;
+  --border-color: #dee2e6;
+  --hover-color: #f8f9fa;
+  --panel-bg: #f8f9fa;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --toggle-bg: #ccc;
+  --toggle-active: #3b3d3f;
+}
+
+/* Dark Theme Variables */
+.dark-theme {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --primary-color: #4dabf7;
+  --secondary-color: #adb5bd;
+  --border-color: #495057;
+  --hover-color: #2d3748;
+  --panel-bg: #2d3748;
+  --input-bg: #2d3748;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --toggle-bg: #6c757d;
+  --toggle-active: #4dabf7;
+}
+
+/* Apply theme variables */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app-container {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Header Container */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+}
+
+.title {
+  color: var(--primary-color);
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Theme Switcher */
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--panel-bg);
+  border-radius: 25px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.theme-label {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.theme-status {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--toggle-bg);
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+input:checked + .toggle-slider {
+  background-color: var(--toggle-active);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+/* Toggle states */
+.toggle-switch input:focus + .toggle-slider {
+  box-shadow: 0 0 1px var(--toggle-active);
+}
+
+/* Main Content Layout */
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  height: calc(100vh - 80px);
+}
+
+.left-panel,
+.right-panel {
+  background: var(--panel-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+/* Update existing components to use theme variables */
+.json-input,
+.tree-visualizer {
+  background: var(--panel-bg);
+  color: var(--text-color);
+}
+
+/* Input fields */
+input, textarea {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+input:focus, textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Buttons */
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Copy notification */
+.copy-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 1000;
+  font-weight: 600;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Instructions panel */
+.instructions-panel {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 2px solid #6366f1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-size: 14px;
+  color: #374151;
+}
+
+.instructions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hover info */
+.hover-info {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 300px;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 50px; /* Push below search message */
+}
+
+.hover-card strong {
+  color: #374151;
+}
+
+/* Node cursor style to indicate clickability */
+.react-flow__node {
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+}
+
+.react-flow__node:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2) !important;
+}
+
+/* Search bar container */
+.search-bar-container {
+  margin-bottom: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .theme-switcher {
+    order: -1; /* Move theme switcher to top on mobile */
+    align-self: center;
+  }
+
+  .main-content {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .hover-info {
+    margin-top: 40px; /* Less margin on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-switcher {
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .theme-label {
+    font-size: 0.8rem;
+  }
+  
+  .theme-status {
+    font-size: 0.8rem;
+    min-width: 25px;
+  }
+  
+  .toggle-switch {
+    width: 45px;
+    height: 22px;
+  }
+  
+  .toggle-slider:before {
+    height: 14px;
+    width: 14px;
+  }
+  
+  input:checked + .toggle-slider:before {
+    transform: translateX(23px);
+  }
+}
+/* ✅ Download button container - positioned absolutely */
+
+.download-btn-container {
+  position: absolute;
+  top: 15px;
+  right: 50px;
+  z-index: 1000;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: #07030c6c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(99, 102, 241, 0.2);
+  z-index: 1000;
+  line-height: 1;
+}
+
+.download-btn:hover:not(:disabled) {
+  background: #0c0c15;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
+}
+
+.download-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(79, 80, 108, 0.2);
+}
+
+.download-btn:disabled {
+  background: #9fa6b3;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.download-btn svg {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+/* Make sure the tree container has relative positioning */
+.tree-container {
+  position: relative;
+}
+
+/* Update mobile styles */
+@media (max-width: 900px) {
+  .download-btn-container {
+    right: 10px;
+    top: 50px;
+  }
+
+  .download-btn {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+}
