@@ -16,7 +16,6 @@ function SearchBar({ onSearch }) {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchPath(value);
-    // If input is cleared, trigger search with empty string to clear highlighting
     if (value === '') {
       onSearch('');
     }

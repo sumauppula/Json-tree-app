@@ -12,7 +12,7 @@ import "reactflow/dist/style.css";
 import { JSONPath } from "jsonpath-plus";
 import { jsonToFlow } from "../Utils/jsonToNodes";
 import SearchBar from "../Components/SearchBar";
-import { toPng } from 'html-to-image';
+import { toPng } from "html-to-image";
 
 function TreeVisualizer({ jsonData, onJsonDataChange }) {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -27,7 +27,7 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
   const nodeTypes = useMemo(() => ({}), []);
   const edgeTypes = useMemo(() => ({}), []);
 
-  // Generate tree when JSON changes
+  // Generating tree
   useEffect(() => {
     if (jsonData) {
       try {
@@ -35,14 +35,14 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
         setNodes(nodes);
         setEdges(edges);
         setMessage("");
-        setCurrentSearchPath(""); // Clear search when JSON changes
-        
+        setCurrentSearchPath("");
+
         setTimeout(() => {
-          fitView({ 
-            padding: 0.2, 
+          fitView({
+            padding: 0.2,
             duration: 800,
             minZoom: 0.1,
-            maxZoom: 2
+            maxZoom: 2,
           });
         }, 100);
       } catch (error) {
@@ -56,19 +56,18 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
     }
   }, [jsonData, fitView, setNodes, setEdges]);
 
-  // Copy path to clipboard function
+  // Copy path function
   const copyToClipboard = useCallback(async (text) => {
     try {
       await navigator.clipboard.writeText(text);
       return true;
     } catch (err) {
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea');
+      const textArea = document.createElement("textarea");
       textArea.value = text;
       document.body.appendChild(textArea);
       textArea.select();
       try {
-        document.execCommand('copy');
+        document.execCommand("copy");
         return true;
       } catch (fallbackErr) {
         return false;
@@ -78,133 +77,131 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
     }
   }, []);
 
-  // Handle node click to copy path
-  const onNodeClick = useCallback(async (event, node) => {
-    const path = node.data.path;
-    
-    const success = await copyToClipboard(path);
-    
-    if (success) {
-      setCopyNotification(`✅ Copied: ${path}`);
-      // Clear notification after 2 seconds
-      setTimeout(() => setCopyNotification(""), 2000);
-    } else {
-      setCopyNotification("❌ Failed to copy path");
-      setTimeout(() => setCopyNotification(""), 2000);
-    }
-  }, [copyToClipboard]);
+  const onNodeClick = useCallback(
+    async (event, node) => {
+      const path = node.data.path;
+      const success = await copyToClipboard(path);
 
-  // Reset all nodes to default styling and fit view
+      if (success) {
+        setCopyNotification(`✅ Copied: ${path}`);
+        setTimeout(() => setCopyNotification(""), 2000);
+      } else {
+        setCopyNotification("❌ Failed to copy path");
+        setTimeout(() => setCopyNotification(""), 2000);
+      }
+    },
+    [copyToClipboard]
+  );
+
+  // Reset all nodes & to fit view
   const resetView = useCallback(() => {
-    // Reset node styles
     setNodes((nds) =>
       nds.map((n) => ({
         ...n,
-        style: { 
-          ...n.style, 
+        style: {
+          ...n.style,
           border: `3px solid ${n.style.borderColor || "#999"}`,
           boxShadow: "0 3px 6px rgba(0,0,0,0.16)",
         },
       }))
     );
-    
-    // Reset to fit view
+
     setTimeout(() => {
-      fitView({ 
-        padding: 0.2, 
+      fitView({
+        padding: 0.2,
         duration: 600,
         minZoom: 0.1,
-        maxZoom: 2
+        maxZoom: 2,
       });
     }, 100);
   }, [setNodes, fitView]);
 
-  // Improved search functionality
-  const handleSearch = useCallback((path) => {
-    if (!jsonData) {
-      setMessage("❌ No JSON data available");
-      return;
-    }
+  // Search function
+  const handleSearch = useCallback(
+    (path) => {
+      if (!jsonData) {
+        setMessage("❌ No JSON data available");
+        return;
+      }
 
-    // If search is empty, clear highlighting and reset view
-    if (!path.trim()) {
-      setCurrentSearchPath("");
-      setMessage("");
-      resetView();
-      return;
-    }
-
-    try {
-      // Normalize path (ensure it starts with $)
-      const normalizedPath = path.trim().startsWith('$') ? path.trim() : `$.${path.trim()}`;
-      const result = JSONPath({ path: normalizedPath, json: jsonData });
-
-      if (!result.length) {
-        setMessage("❌ No match found!");
+      if (!path.trim()) {
         setCurrentSearchPath("");
+        setMessage("");
         resetView();
         return;
       }
 
-      const matchedValue = result[0];
-      let foundNode = null;
+      try {
+        const normalizedPath = path.trim().startsWith("$")
+          ? path.trim()
+          : `$.${path.trim()}`;
+        const result = JSONPath({ path: normalizedPath, json: jsonData });
 
-      // Find the node that matches the path
-      setNodes((nds) =>
-        nds.map((node) => {
-          // Check if this node's path matches the searched path
-          const isMatch = node.data.path === normalizedPath;
-          
-          if (isMatch) foundNode = node;
+        if (!result.length) {
+          setMessage("❌ No match found!");
+          setCurrentSearchPath("");
+          resetView();
+          return;
+        }
 
-          return isMatch
-            ? {
-                ...node,
-                style: {
-                  ...node.style,
-                  border: "4px solid #ff4444",
-                  boxShadow: "0 0 12px rgba(255, 68, 68, 0.8)",
-                },
-              }
-            : {
-                ...node,
-                style: { 
-                  ...node.style, 
-                  border: `3px solid ${node.style.borderColor || "#999"}`,
-                  boxShadow: "0 3px 6px rgba(0,0,0,0.16)",
-                },
-              };
-        })
-      );
+        const matchedValue = result[0];
+        let foundNode = null;
+        setNodes((nds) =>
+          nds.map((node) => {
+            const isMatch = node.data.path === normalizedPath;
+            if (isMatch) foundNode = node;
+            return isMatch
+              ? {
+                  ...node,
+                  style: {
+                    ...node.style,
+                    border: "4px solid #ff4444",
+                    boxShadow: "0 0 12px rgba(255, 68, 68, 0.8)",
+                  },
+                }
+              : {
+                  ...node,
+                  style: {
+                    ...node.style,
+                    border: `3px solid ${node.style.borderColor || "#999"}`,
+                    boxShadow: "0 3px 6px rgba(0,0,0,0.16)",
+                  },
+                };
+          })
+        );
 
-      if (foundNode) {
-        setMessage(`✅ Match found! Path: ${normalizedPath}`);
-        setCurrentSearchPath(normalizedPath);
-        // Center on the found node
-        setTimeout(() => {
-          setViewport(
-            {
-              x: -foundNode.position.x + reactFlowWrapper.current.clientWidth / 2,
-              y: -foundNode.position.y + reactFlowWrapper.current.clientHeight / 2,
-              zoom: 1,
-            },
-            { duration: 600 }
-          );
-        }, 100);
-      } else {
-        setMessage("❌ Path exists but node not found in visualization");
+        if (foundNode) {
+          setMessage(`✅ Match found! Path: ${normalizedPath}`);
+          setCurrentSearchPath(normalizedPath);
+          setTimeout(() => {
+            setViewport(
+              {
+                x:
+                  -foundNode.position.x +
+                  reactFlowWrapper.current.clientWidth / 2,
+                y:
+                  -foundNode.position.y +
+                  reactFlowWrapper.current.clientHeight / 2,
+                zoom: 1,
+              },
+              { duration: 600 }
+            );
+          }, 100);
+        } else {
+          setMessage("❌ Path exists but node not found in visualization");
+          setCurrentSearchPath("");
+          resetView();
+        }
+      } catch (error) {
+        setMessage("⚠️ Invalid JSONPath syntax!");
+        console.error("JSONPath error:", error);
         setCurrentSearchPath("");
         resetView();
       }
-    } catch (error) {
-      setMessage("⚠️ Invalid JSONPath syntax!");
-      console.error("JSONPath error:", error);
-      setCurrentSearchPath("");
-      resetView();
-    }
-  }, [jsonData, setNodes, setViewport, resetView]);
+    },
+    [jsonData, setNodes, setViewport, resetView]
+  );
 
-  // Node hover handler
   const onNodeMouseEnter = useCallback((event, node) => {
     setHoverInfo({
       path: node.data.path,
@@ -228,36 +225,32 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
 
     try {
       setMessage("⏳ Generating image...");
-      
-      const flowElement = reactFlowWrapper.current.querySelector('.react-flow__renderer');
+      const flowElement =
+        reactFlowWrapper.current.querySelector(".react-flow__renderer");
       if (!flowElement) {
-        throw new Error('Could not find flow element');
+        throw new Error("Could not find flow element");
       }
 
-      // Fit view before capturing
       fitView({ padding: 0.2, duration: 500 });
-      
-      // Wait for the fit view to complete
-      await new Promise(resolve => setTimeout(resolve, 600));
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
       const dataUrl = await toPng(flowElement, {
-        backgroundColor: '#fafafa',
+        backgroundColor: "#fafafa",
         quality: 1.0,
-        pixelRatio: 2, // Higher resolution
+        pixelRatio: 2,
         filter: (node) => {
-          // Filter out controls and minimap
           return !(
-            node.classList?.contains('react-flow__controls') ||
-            node.classList?.contains('react-flow__minimap') ||
-            node.classList?.contains('react-flow__panel') ||
-            node.classList?.contains('search-message') ||
-            node.classList?.contains('hover-info') ||
-            node.classList?.contains('download-btn')
+            node.classList?.contains("react-flow__controls") ||
+            node.classList?.contains("react-flow__minimap") ||
+            node.classList?.contains("react-flow__panel") ||
+            node.classList?.contains("search-message") ||
+            node.classList?.contains("hover-info") ||
+            node.classList?.contains("download-btn")
           );
-        }
+        },
       });
 
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.download = `json-tree-${new Date().getTime()}.png`;
       link.href = dataUrl;
       link.click();
@@ -265,15 +258,14 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
       setMessage("✅ Tree downloaded successfully!");
       setTimeout(() => setMessage(""), 2000);
     } catch (error) {
-      console.error('Error downloading tree:', error);
+      console.error("Error downloading tree:", error);
       setMessage("❌ Failed to download tree");
       setTimeout(() => setMessage(""), 3000);
     }
   }, [nodes, fitView]);
 
-  // Clear message after 3 seconds
   useEffect(() => {
-    if (message && !message.includes('⏳')) {
+    if (message && !message.includes("⏳")) {
       const timer = setTimeout(() => {
         setMessage("");
       }, 3000);
@@ -287,11 +279,8 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
         <SearchBar onSearch={handleSearch} />
       </div>
 
-      {/* Copy notification */}
       {copyNotification && (
-        <div className="copy-notification">
-          {copyNotification}
-        </div>
+        <div className="copy-notification">{copyNotification}</div>
       )}
 
       <div className="tree-container" ref={reactFlowWrapper}>
@@ -302,21 +291,21 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
           </div>
         ) : (
           <>
-            {/* Download button - outside ReactFlow but inside tree-container */}
+            {/* download tree functionality */}
             <div className="download-btn-container">
-              <button 
+              <button
                 className="download-btn"
                 onClick={downloadTreeAsImage}
                 title="Download tree as PNG image"
                 disabled={nodes.length === 0}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                  <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
                 </svg>
                 Download
               </button>
             </div>
-            
+
             <ReactFlow
               nodes={nodes}
               edges={edges}
@@ -334,56 +323,54 @@ function TreeVisualizer({ jsonData, onJsonDataChange }) {
               onNodeMouseLeave={onNodeMouseLeave}
               onNodeClick={onNodeClick}
               fitView
-              fitViewOptions={{ 
+              fitViewOptions={{
                 padding: 0.2,
                 includeHiddenNodes: false,
-                duration: 500
+                duration: 500,
               }}
             >
-              {/* Updated MiniMap with smaller size */}
-              <MiniMap 
+              {/* MiniMap functionality */}
+              <MiniMap
                 position="bottom-right"
                 zoomable
                 pannable
                 nodeColor={(node) => {
                   switch (node.data.type) {
-                    case 'object': return '#5859a4';
-                    case 'array': return '#3e8970';
-                    case 'primitive': return '#a48449';
-                    default: return '#ccc';
+                    case "object":
+                      return "#5859a4";
+                    case "array":
+                      return "#3e8970";
+                    case "primitive":
+                      return "#a48449";
+                    default:
+                      return "#ccc";
                   }
                 }}
                 style={{
                   width: 120,
                   height: 80,
-                  backgroundColor: 'var(--panel-bg)',
-                  border: '1px solid var(--border-color)',
+                  backgroundColor: "var(--panel-bg)",
+                  border: "1px solid var(--border-color)",
                 }}
                 nodeStrokeWidth={1}
                 maskColor="rgba(0, 0, 0, 0.1)"
               />
-              <Controls 
-                position="top-right"
-                showFitView={true}
-                showInteractive={false}
-              />
+              <Controls position="top-right" showFitView={true} showInteractive={false} />
               <Background gap={20} size={1} />
-              
-              {/* Search result message panel - positioned on left side */}
+
               {message && (
                 <Panel position="top-left" className="search-message-panel">
-                  <div className="search-message">
-                    {message}
-                  </div>
+                  <div className="search-message">{message}</div>
                 </Panel>
               )}
-             
-              {/* Hover info panel */}
+
               {hoverInfo && (
                 <Panel position="top-left" className="hover-info">
                   <div className="hover-card">
-                    <strong>Path:</strong> {hoverInfo.path}<br/>
-                    <strong>Type:</strong> {hoverInfo.type}<br/>
+                    <strong>Path:</strong> {hoverInfo.path}
+                    <br />
+                    <strong>Type:</strong> {hoverInfo.type}
+                    <br />
                     <strong>Value:</strong> {hoverInfo.value}
                   </div>
                 </Panel>

@@ -17,7 +17,7 @@
   flex-shrink: 0;
 }
 
-/* ✅ Main layout: side by side with equal height */
+/* main layout */
 .main-content {
   display: flex;
   gap: 25px;
@@ -27,8 +27,6 @@
   margin: 0 auto;
   width: 100%;
 }
-
-/* ✅ Left Panel (JSON input) */
 .left-panel {
   flex: 0.45;
   background: #fff;
@@ -40,8 +38,6 @@
   height: 100%;
   min-height: 0;
 }
-
-/* ✅ Right Panel (Tree visualizer) */
 .right-panel {
   flex: 0.55;
   background: #fff;
@@ -55,7 +51,7 @@
   position: relative;
 }
 
-/* ✅ JSON input box */
+/*  JSON input box */
 .json-input-container {
   display: flex;
   flex-direction: column;
@@ -78,7 +74,7 @@
   box-sizing: border-box;
 }
 
-/* ✅ Button group for Generate and Clear buttons */
+/* buttons */
 .button-group {
   display: flex;
   gap: 8px;
@@ -135,7 +131,7 @@
   flex-shrink: 0;
 }
 
-/* ✅ Tree Visualizer Container */
+/* Tree  */
 .tree-visualizer-container {
   display: flex;
   flex-direction: column;
@@ -188,8 +184,6 @@
   background-color: #0f67e3;
   transform: translateY(-1px);
 }
-
-/* ✅ Tree container - FIXED HEIGHT */
 .tree-container {
   flex: 1;
   min-height: 0;
@@ -200,14 +194,14 @@
   overflow: hidden;
 }
 
-/* React Flow wrapper fixes */
+/* React Flow */
 .react-flow-wrapper {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-/* ✅ MiniMap custom styling */
+/* MiniMap */
 .react-flow__minimap {
   width: 120px !important;
   height: 80px !important;
@@ -226,7 +220,7 @@
   stroke-width: 1px !important;
 }
 
-/* ✅ Download button panel */
+/* Download button */
 .download-panel {
   top: 10px !important;
   right: 50px !important;
@@ -265,7 +259,6 @@
   flex-shrink: 0;
 }
 
-/* ✅ Search message panel - positioned on left side */
 .search-message-panel {
   top: 10px !important;
   left: 10px !important;
@@ -299,8 +292,6 @@
 .search-message:contains("⏳") {
   border-left-color: #8b5cf6;
 }
-
-/* ✅ Enhanced placeholder styling */
 .placeholder {
   display: flex;
   flex-direction: column;
@@ -327,7 +318,7 @@
   color: #888;
 }
 
-/* ✅ Node Tooltip */
+/*  Node Tooltip */
 .node-tooltip {
   position: fixed;
   background: rgba(0, 0, 0, 0.9);
@@ -351,7 +342,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Make buttons even more compact on smaller screens */
+/* CSS for smaller screens */
 @media (max-width: 900px) {
   .main-content {
     flex-direction: column;
@@ -392,20 +383,19 @@
     width: 100%;
   }
 
-  /* Smaller MiniMap on mobile */
+  
   .react-flow__minimap {
     width: 80px !important;
     height: 60px !important;
   }
 
-  /* Smaller search message on mobile */
   .search-message {
     font-size: 13px;
     padding: 8px 12px;
     max-width: 300px;
   }
 
-  /* Adjust download button position on mobile */
+  
   .download-panel {
     right: 10px !important;
     top: 50px !important;
@@ -417,7 +407,7 @@
   }
 }
 
-/* ✅ Dark mode support for future use */
+/*  Dark mode for smaller screen */
 @media (prefers-color-scheme: dark) {
   .app-container {
     background-color: #1a1a1a;
@@ -468,7 +458,7 @@
   }
 }
 
-/* CSS Variables for Light Theme (default) */
+/* CSS for Light Theme*/
 :root {
   --bg-color: #ffffff;
   --text-color: #333333;
@@ -483,7 +473,7 @@
   --toggle-active: #3b3d3f;
 }
 
-/* Dark Theme Variables */
+/* for Dark mode  */
 .dark-theme {
   --bg-color: #1a1a1a;
   --text-color: #e0e0e0;
@@ -498,7 +488,7 @@
   --toggle-active: #4dabf7;
 }
 
-/* Apply theme variables */
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -511,7 +501,7 @@ body {
   color: var(--text-color);
 }
 
-/* Header Container */
+
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -528,7 +518,6 @@ body {
   font-weight: 700;
 }
 
-/* Theme Switcher */
 .theme-switcher {
   display: flex;
   align-items: center;
@@ -554,7 +543,7 @@ body {
   text-align: center;
 }
 
-/* Toggle Switch */
+
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -601,12 +590,12 @@ input:checked + .toggle-slider:before {
   transform: translateX(26px);
 }
 
-/* Toggle states */
+
 .toggle-switch input:focus + .toggle-slider {
   box-shadow: 0 0 1px var(--toggle-active);
 }
 
-/* Main Content Layout */
+
 .main-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -624,7 +613,6 @@ input:checked + .toggle-slider:before {
   box-shadow: 0 4px 6px var(--shadow-color);
 }
 
-/* Update existing components to use theme variables */
 .json-input,
 .tree-visualizer {
   background: var(--panel-bg);
@@ -684,7 +672,6 @@ button:hover {
   }
 }
 
-/* Instructions panel */
 .instructions-panel {
   background: rgba(255, 255, 255, 0.95);
   padding: 8px 16px;
@@ -711,14 +698,13 @@ button:hover {
   max-width: 300px;
   font-size: 12px;
   line-height: 1.4;
-  margin-top: 50px; /* Push below search message */
+  margin-top: 50px; 
 }
 
 .hover-card strong {
   color: #374151;
 }
 
-/* Node cursor style to indicate clickability */
 .react-flow__node {
   cursor: pointer !important;
   transition: all 0.2s ease;
@@ -729,7 +715,7 @@ button:hover {
   box-shadow: 0 6px 12px rgba(0,0,0,0.2) !important;
 }
 
-/* Search bar container */
+
 .search-bar-container {
   margin-bottom: 16px;
 }
@@ -744,7 +730,7 @@ button:hover {
   }
 
   .theme-switcher {
-    order: -1; /* Move theme switcher to top on mobile */
+    order: -1; 
     align-self: center;
   }
 
@@ -755,7 +741,7 @@ button:hover {
   }
 
   .hover-info {
-    margin-top: 40px; /* Less margin on mobile */
+    margin-top: 40px; 
   }
 }
 
@@ -788,7 +774,6 @@ button:hover {
     transform: translateX(23px);
   }
 }
-/* ✅ Download button container - positioned absolutely */
 
 .download-btn-container {
   position: absolute;
@@ -838,12 +823,10 @@ button:hover {
   opacity: 0.9;
 }
 
-/* Make sure the tree container has relative positioning */
 .tree-container {
   position: relative;
 }
 
-/* Update mobile styles */
 @media (max-width: 900px) {
   .download-btn-container {
     right: 10px;
