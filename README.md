@@ -27,4 +27,4 @@ A React-based **JSON Tree Visualizer** that allows users to paste or upload JSON
 ##  Installation & Setup
 
 ### Clone the repository
-git clone https://github.com/<sumauppula>/<Json-tree-app>.git
+git clone https://github.com/sumauppula/Json-tree-app.git
